@@ -11,10 +11,10 @@ spec:
   source:
     path: HelmTest/
     repoURL: https://github.com/cybera/rSOC-Kube-Apps
-    targetRevision: master
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
+    syncOptions:
+      - CreateNamespace=true
