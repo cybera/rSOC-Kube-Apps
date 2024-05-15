@@ -1,6 +1,6 @@
 quarkus:
   build:
-    enabled:
+    enabled: false
   deploy:
     route:
       tls:
