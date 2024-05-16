@@ -1,17 +1,32 @@
-project: default
-source:
-  repoURL: 'https://prometheus-community.github.io/helm-charts/'
-  targetRevision: 5.19.0
-  helm:
-    valueFiles:
-      - values.yaml
-    parameters:
-      - name: service.type
-        value: NodePort
-  chart: kube-state-metrics
-destination:
-  server: 'https://kubernetes.default.svc'
-  namespace: monitoring
-syncPolicy:
-  syncOptions:
-    - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: state-metrics
+spec:
+  destination:
+    name: ''
+    namespace: state-metrics
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://prometheus-community.github.io/helm-charts/'
+    targetRevision: 5.19.0
+    chart: kube-state-metrics
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: service.type
+          value: NodePort
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - RespectIgnoreDifferences=true
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
